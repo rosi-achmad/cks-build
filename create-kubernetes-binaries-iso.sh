@@ -99,7 +99,7 @@ provider_conf_file="${working_dir}/provider.yaml"
 curl -sSL ${PROVIDER_URL} -o ${provider_conf_file}
 
 # METRICS-SERVER
-METRICS_SERVER_URL=http://127.0.0.1:8080/metrics-server-v0.7.2.yaml
+METRICS_SERVER_URL=https://raw.githubusercontent.com/rosi-achmad/cks-build/refs/heads/main/metrics-server-v0.7.2.yaml
 echo "Downloading metrics server ${METRICS_SERVER_URL}"
 curl -sSL ${METRICS_SERVER_URL} >> ${dashboard_conf_file}
 
