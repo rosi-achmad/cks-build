@@ -16,5 +16,5 @@ Build Cloudstack Kubernetes Service ISO
 CNI using Calico:  
 ./create-kubernetes-binaries-iso.sh ./ 1.32.0 1.6.2 1.32.0 https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/calico.yaml https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml setup-v1.32.0  
 
-CNI using CILIUM:  
-./create-kubernetes-binaries-iso.sh ./ 1.32.0 1.6.2 1.32.0 http://127.0.0.1:8080/cilium-install.yaml https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml setup-v1.32.0-cilium
+CNI using Cilium:  
+./create-kubernetes-binaries-iso.sh ./ 1.32.0 1.6.2 1.32.0 https://raw.githubusercontent.com/rosi-achmad/cks-build/refs/heads/main/cilium-install.yaml https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml setup-v1.32.0-cilium
