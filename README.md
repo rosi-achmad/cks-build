@@ -10,11 +10,10 @@ sudo curl https://raw.githubusercontent.com/rosi-achmad/cks-build/refs/heads/mai
 ```
 
 # Eg: To generate the latest kubernetes iso
-
-1.27.2,		kubernetes version, see https://github.com/kubernetes/kubernetes/releases  
-1.3.0,		CNI version, see https://github.com/containernetworking/plugins/releases  
-1.27.0,		cri-tools version, see https://github.com/kubernetes-sigs/cri-tools/releases  
-1.11,			weave addon for kubernetes, see https://github.com/weaveworks/weave/tree/master/prog/weave-kube  
+1.32.1,		kubernetes version, see https://github.com/kubernetes/kubernetes/releases  
+1.6.2,		CNI version, see https://github.com/containernetworking/plugins/releases  
+1.32.0,		cri-tools version, see https://github.com/kubernetes-sigs/cri-tools/releases  
+3.29.1,		calico addon for kubernetes, see https://github.com/projectcalico/calico/releases
 2.7.0,		kubernetes dashboard version, see https://github.com/kubernetes/dashboard/release
 
 # Usage:  
