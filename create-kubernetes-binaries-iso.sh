@@ -74,7 +74,7 @@ if [[ `echo "${2} $val" | awk '{print ($1 < $2)}'` == 1 ]]; then
   curl -sSL "https://raw.githubusercontent.com/kubernetes/kubernetes/${RELEASE}/build/debs/10-kubeadm.conf" | sed "s:/usr/bin:/opt/bin:g" > ${kubeadm_conf_file}
 else
   #curl -sSL "https://raw.githubusercontent.com/shapeblue/cloudstack-nonoss/main/cks/10-kubeadm.conf" | sed "s:/usr/bin:/opt/bin:g" > ${kubeadm_conf_file}
-  curl -sSL "http://127.0.0.1:8080/10-kubeadm.conf" | sed "s:/usr/bin:/opt/bin:g" > ${kubeadm_conf_file}
+  curl -sSL "https://raw.githubusercontent.com/rosi-achmad/cks-build/refs/heads/main/10-kubeadm.conf" | sed "s:/usr/bin:/opt/bin:g" > ${kubeadm_conf_file}
 fi
 
 NETWORK_CONFIG_URL="${5}"
