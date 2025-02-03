@@ -1,5 +1,5 @@
 # cks-build
-Build Cloudstack Kubernetes Service ISO  
+Build Kubernetes ISO for Cloudstack
 
 # Eg: To generate the latest kubernetes iso
 
