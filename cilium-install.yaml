@@ -1,0 +1,94 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cilium-install
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: cilium-install
+  namespace: kube-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cilium-install
+  namespace: kube-system
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cilium-install
+  namespace: kube-system
+spec:
+  backoffLimit: 10
+  template:
+    metadata:
+      labels:
+        app: cilium-install
+    spec:
+      restartPolicy: OnFailure
+      tolerations:
+      - operator: Exists
+      - effect: NoSchedule
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+      - effect: PreferNoSchedule
+        operator: Exists
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoExecute
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: PreferNoSchedule
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+      serviceAccount: cilium-install
+      serviceAccountName: cilium-install
+      hostNetwork: true
+      containers:
+      - name: cilium-install
+        image: quay.io/cilium/cilium-cli-ci:latest
+        env:
+        - name: KUBERNETES_SERVICE_HOST
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: KUBERNETES_SERVICE_PORT
+          value: "6443"
+        command:
+        - /bin/bash
+        - -c
+        - |
+          kubectl -n kube-system delete ds kube-proxy && \
+          kubectl -n kube-system delete cm kube-proxy && \
+          ENDPOINT=$(cat /root/.kube/config | sed -n 's/.*https:\/\/\([0-9\.]*\):.*/\1/p') && \
+          PORT=$(cat /root/.kube/config | sed -n 's/.*https:\/\/[0-9\.]*:\([0-9]*\).*/\1/p') && \
+          cilium install \
+          --namespace kube-system \
+          --set kubeProxyReplacement=true \
+          --set k8sServiceHost=$ENDPOINT \
+          --set k8sServicePort=$PORT \
+          --set hubble.relay.enabled=true \
+          --set hubble.ui.enabled=true
+        volumeMounts:
+        - mountPath: /root/.kube/config
+          name: kubeconfig
+      volumes:
+      - name: kubeconfig
+        hostPath:
+          path: /root/.kube/config
+          type: File
